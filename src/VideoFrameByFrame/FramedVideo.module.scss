@@ -1,3 +1,21 @@
-.innerDiv {
-    position: absolute;
+.wrapper {
+    position: relative;
+    
+    .innerDiv {
+        position: absolute;
+        width: fit-content;
+        background-color: transparent;
+        bottom: 2.5em;
+        margin-right: auto;
+        margin-left: auto;
+        left: 0; 
+        right: 0; 
+        display: flex;
+        justify-content: space-between;
+        width: 50px;
+
+        .button {
+            cursor: pointer;
+        }
+    }
 }
