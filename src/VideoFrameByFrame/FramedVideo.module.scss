@@ -1,3 +1,5 @@
+$buttom-width: 37px;
+
 .wrapper {
     position: relative;
     
@@ -12,10 +14,26 @@
         right: 0; 
         display: flex;
         justify-content: space-between;
-        width: 50px;
+        width: 120px;
 
         .button {
             cursor: pointer;
+            width: $buttom-width;
+            height: $buttom-width;
+            background-color: transparent;
+            display: flex;
+            justify-content: center;
+            border-radius: $buttom-width;
+            opacity: 1;
+
+            &:hover {
+                background-color: black;
+                opacity: 0.5;
+            }
+
+            img {
+                opacity: 1;
+            }
         }
     }
 }

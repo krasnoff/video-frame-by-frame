@@ -1,5 +1,5 @@
 import styles from './FramedVideo.module.scss';
-import { useRef } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 
 import forwardButton from './icons/forward.svg';
 import backwardButton from './icons/backward.svg';
@@ -9,6 +9,7 @@ interface MyProps {
 }
 
 function FramedVideo(props: MyProps) {
+    const [isPaused, setIsPaused] = useState<boolean>(true)
     const videoComponent = useRef<HTMLVideoElement>(null);
     let frameTime = 1/ 25;
 
@@ -32,6 +33,18 @@ function FramedVideo(props: MyProps) {
         }
       }  
     }
+
+    useLayoutEffect(() => {
+      if (videoComponent.current) {
+        videoComponent.current.onpause = () => {
+          setIsPaused(true);
+        }
+
+        videoComponent.current.onplay = () => {
+          setIsPaused(false);
+        }
+      }
+    }, [])
   
     return (
         <figure className={styles.wrapper}>
@@ -39,10 +52,11 @@ function FramedVideo(props: MyProps) {
             <source src={props.src} type="video/mp4" />
             Your browser does not support HTML video.
           </video>
-          <div className={styles.innerDiv}>
-            <div className={styles.button} onClick={() => backward()}><img alt="" src={backwardButton} width="15" /></div>
-            <div className={styles.button} onClick={() => forward()}><img alt="" src={forwardButton} width="15" /></div>
-          </div>
+          {isPaused ?
+            <div className={styles.innerDiv}>
+              <div className={styles.button} onClick={() => backward()}><img alt="" src={backwardButton} width="15" /></div>
+              <div className={styles.button} onClick={() => forward()}><img alt="" src={forwardButton} width="15" /></div>
+            </div> : null }
         </figure>
     );
 }
