@@ -54,8 +54,14 @@ function FramedVideo(props: MyProps) {
           </video>
           {isPaused ?
             <div className={styles.innerDiv}>
-              <div className={styles.button} onClick={() => backward()}><img alt="" src={backwardButton} width="15" /></div>
-              <div className={styles.button} onClick={() => forward()}><img alt="" src={forwardButton} width="15" /></div>
+              <div className={styles.button} onClick={() => backward()}>
+                <div className={styles.background}></div>
+                <img alt="" src={backwardButton} width="15" className={styles.forward} />
+              </div>
+              <div className={styles.button} onClick={() => forward()}>
+                <div className={styles.background}></div>
+                <img alt="" src={forwardButton} width="15" className={styles.backward} />
+              </div>
             </div> : null }
         </figure>
     );
