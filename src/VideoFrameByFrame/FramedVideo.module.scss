@@ -61,4 +61,8 @@ $buttom-width: 37px;
             }
         }
     }
+
+    video::-webkit-media-controls-fullscreen-button {
+        display: none;
+    }
 }
