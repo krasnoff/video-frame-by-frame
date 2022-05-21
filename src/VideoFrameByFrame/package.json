@@ -1,0 +1,29 @@
+{
+  "name": "videoframebyframe",
+  "version": "1.0.6",
+  "description": "this is a reactJs video component which enables to run a video movie frame by frame",
+  "main": "FramedVideo.tsx",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "rm -rf dist",
+    "build": "tsc && cp -r package.json README.md FramedVideo.module.scss icons ./dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/krasnoff/video-frame-by-frame.git"
+  },
+  "keywords": [
+    "reactjs",
+    "video"
+  ],
+  "author": "Kobi Krasnoff",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/krasnoff/video-frame-by-frame/issues"
+  },
+  "homepage": "https://github.com/krasnoff/video-frame-by-frame#readme",
+  "dependencies": {
+    "node-sass": "^7.0.1",
+    "react": "^18.1.0"
+  }
+}

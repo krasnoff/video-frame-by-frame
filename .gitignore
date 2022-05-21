@@ -21,3 +21,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+/src/VideoFrameByFrame/node_modules
+/src/VideoFrameByFrame/dist
