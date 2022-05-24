@@ -28,3 +28,5 @@ Here is a screenshot of the video controller:
 ![Video screenshot](/screenshot.png "Video screenshot")
 
 As you can see the frame forward and the frame backward appears on the bottom center of the screen. They appear only when the video is paused.
+
+This component was made by Kobi Krasnoff

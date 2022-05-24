@@ -1,6 +1,6 @@
 {
   "name": "videoframebyframe",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "this is a reactJs video component which enables to run a video movie frame by frame",
   "main": "FramedVideo.tsx",
   "scripts": {
