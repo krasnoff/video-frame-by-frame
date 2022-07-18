@@ -3,6 +3,7 @@ import { useLayoutEffect, useRef, useState } from 'react';
 
 import forwardButton from './icons/forward.svg';
 import backwardButton from './icons/backward.svg';
+import { useFormatTime } from './hooks/FormatTime';
 
 interface MyProps {
   src: string
@@ -10,12 +11,16 @@ interface MyProps {
 
 function FramedVideo(props: MyProps) {
     const [isPaused, setIsPaused] = useState<boolean>(true);
-    const [currentTimeState, setcurrentTimeState] = useState<number | undefined>(0);
+    const [currentTimeState, setcurrentTimeState] = useState<string>('00:00');
     const videoComponent = useRef<HTMLVideoElement>(null);
     const container = useRef<HTMLElement>(null);
+    const formatTime = useFormatTime();
+    const [durationState, setDurationState] = useState<string>('00:00');
+    const [playInterval, setPlayInterval] = useState<NodeJS.Timeout | undefined>(undefined);
+
     let frameTime = 1 / 25;
     let isFullscreen: boolean = false;
-    let playInterval: NodeJS.Timeout | undefined;
+    // let playInterval: NodeJS.Timeout | undefined;
 
     const forward = () => {
       OneFrame(false);
@@ -42,17 +47,23 @@ function FramedVideo(props: MyProps) {
       if (videoComponent.current) {
         videoComponent.current.onpause = () => {
           setIsPaused(true);
-          clearInterval(playInterval)
+          clearInterval(playInterval);
+          setPlayInterval(undefined);
         }
 
         videoComponent.current.onplay = () => {
           setIsPaused(false);
-          playInterval = setInterval(() => {
-            setcurrentTimeState(videoComponent.current?.currentTime)
-          }, 1000);
+          setPlayInterval(setInterval(() => {
+            setcurrentTimeState(formatTime.format(videoComponent.current?.currentTime));
+          }, 1000));
+        }
+
+        videoComponent.current.oncanplay = () => {
+          console.log('oncanplay ready');
+          setDurationState(formatTime.format(videoComponent.current?.duration));
         }
       }
-    }, [])
+    }, [formatTime, playInterval])
 
     const setFullScreen = () => {
       if (!isFullscreen) {
@@ -105,7 +116,7 @@ function FramedVideo(props: MyProps) {
             <button onClick={() => setFullScreen()}>set full screen</button>
             <button onClick={() => play()} disabled={false/*videoComponent.current?.paused*/}>play</button>
             <button onClick={() => pause()} disabled={false/*videoComponent.current?.paused*/}>pause</button>
-            &nbsp;video duration: {videoComponent.current?.duration}&nbsp;
+            &nbsp;video duration: {durationState}&nbsp;
             &nbsp;video current time: {currentTimeState}&nbsp;
         </figure>
         
