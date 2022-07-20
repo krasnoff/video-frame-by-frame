@@ -13,7 +13,7 @@ function FramedVideo(props: MyProps) {
     const [isPaused, setIsPaused] = useState<boolean>(true);
     const [currentTimeState, setcurrentTimeState] = useState<string>('00:00');
     const videoComponent = useRef<HTMLVideoElement>(null);
-    const container = useRef<HTMLElement>(null);
+    const container = useRef<HTMLDivElement>(null);
     const formatTime = useFormatTime();
     const [durationState, setDurationState] = useState<string>('00:00');
     const [playInterval, setPlayInterval] = useState<NodeJS.Timeout | undefined>(undefined);
@@ -96,12 +96,17 @@ function FramedVideo(props: MyProps) {
     }
   
     return (
-        <figure className={styles.wrapper} ref={container}>
+        <>
+        <div className={styles.wrapper} ref={container}>
           <video width="100%" ref={videoComponent}>
             <source src={props.src} type="video/mp4" />
             Your browser does not support HTML video.
           </video>
-          {isPaused ?
+          {/* controls */}
+          <div id="mycontrols" className={styles.mycontrols}>
+
+          </div>
+          {/* {isPaused ?
             <div className={styles.innerDiv}>
               <div className={styles.button} onClick={() => backward()}>
                 <div className={styles.background}></div>
@@ -111,15 +116,16 @@ function FramedVideo(props: MyProps) {
                 <div className={styles.background}></div>
                 <img alt="" src={forwardButton} width="15" className={styles.backward} />
               </div>
-            </div> : null }
+            </div> : null } */}
 
-            <button onClick={() => setFullScreen()}>set full screen</button>
-            <button onClick={() => play()} disabled={false/*videoComponent.current?.paused*/}>play</button>
-            <button onClick={() => pause()} disabled={false/*videoComponent.current?.paused*/}>pause</button>
-            &nbsp;video duration: {durationState}&nbsp;
-            &nbsp;video current time: {currentTimeState}&nbsp;
-        </figure>
-        
+            
+        </div>
+          <button onClick={() => setFullScreen()}>set full screen</button>
+          <button onClick={() => play()} disabled={false/*videoComponent.current?.paused*/}>play</button>
+          <button onClick={() => pause()} disabled={false/*videoComponent.current?.paused*/}>pause</button>
+          &nbsp;video duration: {durationState}&nbsp;
+          &nbsp;video current time: {currentTimeState}&nbsp;
+        </>
     );
 }
 
