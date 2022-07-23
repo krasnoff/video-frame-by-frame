@@ -3,6 +3,10 @@ import { useLayoutEffect, useRef, useState } from 'react';
 
 import forwardButton from './icons/forward.svg';
 import backwardButton from './icons/backward.svg';
+import playButton from './icons/play.svg';
+import pauseButton from './icons/pause.svg';
+import fullscreenButton from './icons/fullscreen.svg';
+import exitfullscreenButton from './icons/exitfullscreen.svg';
 import { useFormatTime } from './hooks/FormatTime';
 
 interface MyProps {
@@ -11,17 +15,17 @@ interface MyProps {
 
 function FramedVideo(props: MyProps) {
     const [isPaused, setIsPaused] = useState<boolean>(true);
+    const [isfullscreen, setIsfullscreen] = useState<Element | null>(null);
     const [currentTimeState, setcurrentTimeState] = useState<string>('00:00');
     const videoComponent = useRef<HTMLVideoElement>(null);
     const container = useRef<HTMLDivElement>(null);
+    const controls = useRef<HTMLDivElement>(null);
     const formatTime = useFormatTime();
     const [durationState, setDurationState] = useState<string>('00:00');
     const [playInterval, setPlayInterval] = useState<NodeJS.Timeout | undefined>(undefined);
 
     let frameTime = 1 / 25;
-    let isFullscreen: boolean = false;
-    // let playInterval: NodeJS.Timeout | undefined;
-
+    
     const forward = () => {
       OneFrame(false);
     }
@@ -63,28 +67,34 @@ function FramedVideo(props: MyProps) {
           setDurationState(formatTime.format(videoComponent.current?.duration));
         }
       }
+
+      if (container.current) {
+        container.current.onfullscreenchange = () => {
+          setIsfullscreen(document.fullscreenElement);
+        }
+      }
     }, [formatTime, playInterval])
 
     const setFullScreen = () => {
-      if (!isFullscreen) {
-        if (videoComponent.current?.requestFullscreen) {
-          videoComponent.current?.requestFullscreen();
-        } else if ((videoComponent.current as any).mozRequestFullScreen) {
-          (container as any).mozRequestFullScreen(); // Firefox
-        } else if ((videoComponent.current as any).webkitRequestFullscreen) {
-          (videoComponent.current as any).webkitRequestFullscreen(); // Chrome and Safari
-        }
-        isFullscreen = true;
-      } else {
-        if (document.exitFullscreen) {
-          document.exitFullscreen();
-        } else if ((document as any).mozCancelFullScreen) {
-          (document as any).mozCancelFullScreen();
-        } else if ((document as any).webkitCancelFullScreen) {
-          (document as any).webkitCancelFullScreen();
-        }
-        isFullscreen = false;
+      if (videoComponent.current?.requestFullscreen) {
+        container.current?.requestFullscreen();
+      } else if ((videoComponent.current as any).mozRequestFullScreen) {
+        (container as any).mozRequestFullScreen(); // Firefox
+      } else if ((videoComponent.current as any).webkitRequestFullscreen) {
+        (videoComponent.current as any).webkitRequestFullscreen(); // Chrome and Safari
       }
+
+    }
+
+    const exitFullScreen = () => {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if ((document as any).mozCancelFullScreen) {
+        (document as any).mozCancelFullScreen();
+      } else if ((document as any).webkitCancelFullScreen) {
+        (document as any).webkitCancelFullScreen();
+      }
+
     }
 
     const play = () => {
@@ -103,28 +113,50 @@ function FramedVideo(props: MyProps) {
             Your browser does not support HTML video.
           </video>
           {/* controls */}
-          <div id="mycontrols" className={styles.mycontrols}>
+          <div id="mycontrols" className={styles.mycontrols} ref={controls}>
+            {isPaused ?
+            <div className={styles.button} onClick={() => play()}>
+                <div className={styles.background}></div>
+                <img alt="" src={playButton} width="15" className={styles.forward} />
+            </div>
+            : null }
 
-          </div>
-          {/* {isPaused ?
-            <div className={styles.innerDiv}>
-              <div className={styles.button} onClick={() => backward()}>
+            {!isPaused ?
+            <div className={styles.button} onClick={() => pause()}>
+                <div className={styles.background}></div>
+                <img alt="" src={pauseButton} width="15" className={styles.forward} />
+            </div>
+             : null }
+            
+            <div className={styles.button} onClick={() => backward()}>
                 <div className={styles.background}></div>
                 <img alt="" src={backwardButton} width="15" className={styles.forward} />
-              </div>
-              <div className={styles.button} onClick={() => forward()}>
+            </div>
+            <div className={styles.button} onClick={() => forward()}>
                 <div className={styles.background}></div>
                 <img alt="" src={forwardButton} width="15" className={styles.backward} />
-              </div>
-            </div> : null } */}
+            </div>
 
-            
+            <div className={styles.time}>
+              {currentTimeState} / {durationState}
+            </div>
+
+            {!isfullscreen ?
+            <div className={styles.button} onClick={() => setFullScreen()}>
+                <div className={styles.background}></div>
+                <img alt="" src={fullscreenButton} width="15" className={styles.backward} />
+            </div>
+            : null }
+
+            {isfullscreen !== null ?
+            <div className={styles.button} onClick={() => exitFullScreen()}>
+                <div className={styles.background}></div>
+                <img alt="" src={exitfullscreenButton} width="15" className={styles.backward} />
+            </div>
+            : null }
+          </div>
+                      
         </div>
-          <button onClick={() => setFullScreen()}>set full screen</button>
-          <button onClick={() => play()} disabled={false/*videoComponent.current?.paused*/}>play</button>
-          <button onClick={() => pause()} disabled={false/*videoComponent.current?.paused*/}>pause</button>
-          &nbsp;video duration: {durationState}&nbsp;
-          &nbsp;video current time: {currentTimeState}&nbsp;
         </>
     );
 }
