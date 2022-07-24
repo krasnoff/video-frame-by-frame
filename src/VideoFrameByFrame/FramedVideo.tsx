@@ -8,6 +8,7 @@ import pauseButton from './icons/pause.svg';
 import fullscreenButton from './icons/fullscreen.svg';
 import exitfullscreenButton from './icons/exitfullscreen.svg';
 import { useFormatTime } from './hooks/FormatTime';
+import { ReactSVG } from 'react-svg';
 
 interface MyProps {
   src: string
@@ -117,41 +118,47 @@ function FramedVideo(props: MyProps) {
             {isPaused ?
             <div className={styles.button} onClick={() => play()}>
                 <div className={styles.background}></div>
-                <img alt="" src={playButton} width="15" className={styles.forward} />
+                {/* <img alt="" src={playButton} width="15" className={styles.forward} /> */}
+                <ReactSVG src={playButton} wrapper="svg"></ReactSVG>
             </div>
             : null }
 
             {!isPaused ?
             <div className={styles.button} onClick={() => pause()}>
                 <div className={styles.background}></div>
-                <img alt="" src={pauseButton} width="15" className={styles.forward} />
+                {/* <img alt="" src={pauseButton} width="15" className={styles.forward} /> */}
+                <ReactSVG src={pauseButton} wrapper="svg"></ReactSVG>
             </div>
              : null }
             
             <div className={styles.button} onClick={() => backward()}>
                 <div className={styles.background}></div>
-                <img alt="" src={backwardButton} width="15" className={styles.forward} />
+                {/* <img alt="" src={backwardButton} width="15" className={styles.forward} /> */}
+                <ReactSVG src={backwardButton} wrapper="svg"></ReactSVG>
             </div>
             <div className={styles.button} onClick={() => forward()}>
                 <div className={styles.background}></div>
-                <img alt="" src={forwardButton} width="15" className={styles.backward} />
+                {/* <img alt="" src={forwardButton} width="15" className={styles.backward} /> */}
+                <ReactSVG src={forwardButton} wrapper="svg"></ReactSVG>
             </div>
 
             <div className={styles.time}>
-              {currentTimeState} / {durationState}
+              <div>{currentTimeState} / {durationState}</div>
             </div>
 
             {!isfullscreen ?
             <div className={styles.button} onClick={() => setFullScreen()}>
                 <div className={styles.background}></div>
-                <img alt="" src={fullscreenButton} width="15" className={styles.backward} />
+                {/* <img alt="" src={fullscreenButton} width="15" className={styles.backward} /> */}
+                <ReactSVG src={fullscreenButton} wrapper="svg"></ReactSVG>
             </div>
             : null }
 
             {isfullscreen !== null ?
             <div className={styles.button} onClick={() => exitFullScreen()}>
                 <div className={styles.background}></div>
-                <img alt="" src={exitfullscreenButton} width="15" className={styles.backward} />
+                {/* <img alt="" src={exitfullscreenButton} width="15" className={styles.backward} /> */}
+                <ReactSVG src={exitfullscreenButton} wrapper="svg"></ReactSVG>
             </div>
             : null }
           </div>

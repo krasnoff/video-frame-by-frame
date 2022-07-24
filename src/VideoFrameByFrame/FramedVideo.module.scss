@@ -43,6 +43,11 @@ $buttom-width: 37px;
         .time {
             display: flex;
             align-items: center;
+
+            div {
+                position: relative;
+                bottom: 3px;
+            }
         }
 
         .button {
@@ -52,9 +57,22 @@ $buttom-width: 37px;
             background-color: transparent;
             display: flex;
             justify-content: center;
+            align-items: center;
             border-radius: $buttom-width;
             opacity: 1;
             position: relative;
+
+            svg {
+                // width: 15px;
+                height: 15px;
+                opacity: 1;
+                z-index: 2;
+
+                path {
+                    fill: white;
+                }
+            }
+            
 
             .background {
                 background-color: black;
