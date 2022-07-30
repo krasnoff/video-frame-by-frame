@@ -3,23 +3,6 @@ $buttom-width: 37px;
 .wrapper {
     position: relative;
     
-    .innerDiv {
-        position: absolute;
-        width: fit-content;
-        background-color: transparent;
-        bottom: 2.0em;
-        margin-right: auto;
-        margin-left: auto;
-        left: 0; 
-        right: 0; 
-        display: flex;
-        justify-content: space-between;
-        width: 80px;
-        display: none;
-
-        
-    }
-
     .mycontrols {
         position: absolute;
         bottom: 3px;
@@ -29,9 +12,9 @@ $buttom-width: 37px;
         font-size: .8em;
         min-height: 40px;
         padding: 10px 5px;
-        background-color: yellow;
         background-color: rgba(34, 34, 30, 0.75);
         z-index: 2147483647;
+        opacity: 0;
 
         display: flex;
 
@@ -106,6 +89,13 @@ $buttom-width: 37px;
                 
                 left: 1px;
             }
+        }
+    }
+
+    &:hover {
+        .mycontrols {
+            opacity: 1;
+            transition: opacity 0.5s ease-out;
         }
     }
 
