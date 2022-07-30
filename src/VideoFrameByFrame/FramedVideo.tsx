@@ -24,6 +24,7 @@ function FramedVideo(props: MyProps) {
     const formatTime = useFormatTime();
     const [durationState, setDurationState] = useState<string>('00:00');
     const [playInterval, setPlayInterval] = useState<NodeJS.Timeout | undefined>(undefined);
+    const [fullScreenDisplay, setFullScreenDisplay] = useState<NodeJS.Timeout | undefined>(undefined);
 
     let frameTime = 1 / 25;
     
@@ -46,6 +47,10 @@ function FramedVideo(props: MyProps) {
             videoComponent.current.currentTime = Math.min(videoComponent.current.duration, videoComponent.current.currentTime + frameTime);
         }
         setcurrentTimeState(formatTime.format(videoComponent.current?.currentTime));
+        if (container.current) {
+          container.current.dispatchEvent(new Event('mousemove'));
+        }
+        
       }  
     }
 
@@ -73,9 +78,23 @@ function FramedVideo(props: MyProps) {
       if (container.current) {
         container.current.onfullscreenchange = () => {
           setIsfullscreen(document.fullscreenElement);
+          if (document.fullscreenElement === null) {
+            controls.current?.removeAttribute('style');
+          }
+        }
+
+        container.current.onmousemove = () => {
+          if (isfullscreen) {
+            clearTimeout(fullScreenDisplay);
+            setFullScreenDisplay(undefined);
+            controls.current?.setAttribute('style', "opacity: 1");
+            setFullScreenDisplay(setTimeout(() => {
+              controls.current?.removeAttribute('style');
+            }, 2000));
+          }
         }
       }
-    }, [formatTime, playInterval])
+    }, [formatTime, playInterval, isfullscreen, fullScreenDisplay])
 
     const setFullScreen = () => {
       if (videoComponent.current?.requestFullscreen) {
