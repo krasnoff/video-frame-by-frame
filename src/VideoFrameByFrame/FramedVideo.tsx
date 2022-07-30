@@ -8,7 +8,7 @@ import pauseButton from './icons/pause.svg';
 import fullscreenButton from './icons/fullscreen.svg';
 import exitfullscreenButton from './icons/exitfullscreen.svg';
 import { useFormatTime } from './hooks/FormatTime';
-import { ReactSVG } from 'react-svg';
+import { LinearProgress } from '@mui/material';
 
 interface MyProps {
   src: string
@@ -125,6 +125,10 @@ function FramedVideo(props: MyProps) {
     const pause = () => {
       videoComponent.current?.pause();
     }
+
+    const divStyle = {
+      width: '200px'
+    };
   
     return (
         <>
@@ -138,24 +142,24 @@ function FramedVideo(props: MyProps) {
             {isPaused ?
             <div className={styles.button} onClick={() => play()}>
                 <div className={styles.background}></div>
-                <ReactSVG src={playButton} wrapper="svg"></ReactSVG>
+                <img alt="" src={playButton} width="15" className={styles.forward} />
             </div>
             : null }
 
             {!isPaused ?
             <div className={styles.button} onClick={() => pause()}>
                 <div className={styles.background}></div>
-                <ReactSVG src={pauseButton} wrapper="svg"></ReactSVG>
+                <img alt="" src={pauseButton} width="15" className={styles.forward} />
             </div>
              : null }
             
             <div className={styles.button} onClick={() => backward()}>
                 <div className={styles.background}></div>
-                <ReactSVG src={backwardButton} wrapper="svg"></ReactSVG>
+                <img alt="" src={backwardButton} width="15" className={styles.forward} />
             </div>
             <div className={styles.button} onClick={() => forward()}>
                 <div className={styles.background}></div>
-                <ReactSVG src={forwardButton} wrapper="svg"></ReactSVG>
+                <img alt="" src={forwardButton} width="15" className={styles.backward} />
             </div>
 
             <div className={styles.time}>
@@ -165,16 +169,21 @@ function FramedVideo(props: MyProps) {
             {!isfullscreen ?
             <div className={styles.button} onClick={() => setFullScreen()}>
                 <div className={styles.background}></div>
-                <ReactSVG src={fullscreenButton} wrapper="svg"></ReactSVG>
+                <img alt="" src={fullscreenButton} width="15" className={styles.backward} />
             </div>
             : null }
 
             {isfullscreen !== null ?
             <div className={styles.button} onClick={() => exitFullScreen()}>
                 <div className={styles.background}></div>
-                <ReactSVG src={exitfullscreenButton} wrapper="svg"></ReactSVG>
+                <img alt="" src={exitfullscreenButton} width="15" className={styles.backward} />
             </div>
             : null }
+
+            <div style={divStyle}>
+              <LinearProgress />
+            </div>
+            
           </div>
                       
         </div>
