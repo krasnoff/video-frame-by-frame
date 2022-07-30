@@ -1,14 +1,14 @@
 import styles from './FramedVideo.module.scss';
 import { useLayoutEffect, useRef, useState } from 'react';
 
-import forwardButton from './icons/forward.svg';
-import backwardButton from './icons/backward.svg';
-import playButton from './icons/play.svg';
-import pauseButton from './icons/pause.svg';
-import fullscreenButton from './icons/fullscreen.svg';
-import exitfullscreenButton from './icons/exitfullscreen.svg';
 import { useFormatTime } from './hooks/FormatTime';
 import { LinearProgress } from '@mui/material';
+import PlayIcon from './icons/PlayIcon';
+import PauseIcon from './icons/PauseIcon';
+import BackwardIcon from './icons/BackwardIcon';
+import ForwardIcon from './icons/ForwardIcon';
+import FullScreenIcon from './icons/FullScreenIcon';
+import ExitFullScreenIcon from './icons/ExitfullScreenIcon';
 
 interface MyProps {
   src: string
@@ -142,24 +142,24 @@ function FramedVideo(props: MyProps) {
             {isPaused ?
             <div className={styles.button} onClick={() => play()}>
                 <div className={styles.background}></div>
-                <img alt="" src={playButton} width="15" className={styles.forward} />
+                <PlayIcon/>
             </div>
             : null }
 
             {!isPaused ?
             <div className={styles.button} onClick={() => pause()}>
                 <div className={styles.background}></div>
-                <img alt="" src={pauseButton} width="15" className={styles.forward} />
+                <PauseIcon />
             </div>
              : null }
             
             <div className={styles.button} onClick={() => backward()}>
                 <div className={styles.background}></div>
-                <img alt="" src={backwardButton} width="15" className={styles.forward} />
+                <BackwardIcon />
             </div>
             <div className={styles.button} onClick={() => forward()}>
                 <div className={styles.background}></div>
-                <img alt="" src={forwardButton} width="15" className={styles.backward} />
+                <ForwardIcon />
             </div>
 
             <div className={styles.time}>
@@ -169,14 +169,14 @@ function FramedVideo(props: MyProps) {
             {!isfullscreen ?
             <div className={styles.button} onClick={() => setFullScreen()}>
                 <div className={styles.background}></div>
-                <img alt="" src={fullscreenButton} width="15" className={styles.backward} />
+                <FullScreenIcon />
             </div>
             : null }
 
             {isfullscreen !== null ?
             <div className={styles.button} onClick={() => exitFullScreen()}>
                 <div className={styles.background}></div>
-                <img alt="" src={exitfullscreenButton} width="15" className={styles.backward} />
+                <ExitFullScreenIcon />
             </div>
             : null }
 
