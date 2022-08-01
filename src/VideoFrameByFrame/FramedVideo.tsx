@@ -2,13 +2,14 @@ import styles from './FramedVideo.module.scss';
 import { useLayoutEffect, useRef, useState } from 'react';
 
 import { useFormatTime } from './hooks/FormatTime';
-import { LinearProgress } from '@mui/material';
 import PlayIcon from './icons/PlayIcon';
 import PauseIcon from './icons/PauseIcon';
 import BackwardIcon from './icons/BackwardIcon';
 import ForwardIcon from './icons/ForwardIcon';
 import FullScreenIcon from './icons/FullScreenIcon';
 import ExitFullScreenIcon from './icons/ExitfullScreenIcon';
+import ProgressBar from './components/ProgressBar';
+import { Variants } from './enums/Variant';
 
 interface MyProps {
   src: string
@@ -18,12 +19,15 @@ function FramedVideo(props: MyProps) {
     const [isPaused, setIsPaused] = useState<boolean>(true);
     const [isfullscreen, setIsfullscreen] = useState<Element | null>(null);
     const [currentTimeState, setcurrentTimeState] = useState<string>('00:00');
+    const [currentProgress, setcurrentProgress] = useState<number>(0);
+    const [currentBuffer, setcurrentBuffer] = useState<number>(0);
     const videoComponent = useRef<HTMLVideoElement>(null);
     const container = useRef<HTMLDivElement>(null);
     const controls = useRef<HTMLDivElement>(null);
     const formatTime = useFormatTime();
     const [durationState, setDurationState] = useState<string>('00:00');
     const [playInterval, setPlayInterval] = useState<NodeJS.Timeout | undefined>(undefined);
+    const [progressInterval, setProgressInterval] = useState<NodeJS.Timeout | undefined>(undefined);
     const [fullScreenDisplay, setFullScreenDisplay] = useState<NodeJS.Timeout | undefined>(undefined);
 
     let frameTime = 1 / 25;
@@ -47,6 +51,7 @@ function FramedVideo(props: MyProps) {
             videoComponent.current.currentTime = Math.min(videoComponent.current.duration, videoComponent.current.currentTime + frameTime);
         }
         setcurrentTimeState(formatTime.format(videoComponent.current?.currentTime));
+        setcurrentProgress(Math.round(videoComponent.current?.currentTime || 0) / (videoComponent.current?.duration || 100) * 100);
         if (container.current) {
           container.current.dispatchEvent(new Event('mousemove'));
         }
@@ -59,7 +64,9 @@ function FramedVideo(props: MyProps) {
         videoComponent.current.onpause = () => {
           setIsPaused(true);
           clearInterval(playInterval);
+          clearInterval(progressInterval);
           setPlayInterval(undefined);
+          setProgressInterval(undefined);
         }
 
         videoComponent.current.onplay = () => {
@@ -67,10 +74,17 @@ function FramedVideo(props: MyProps) {
           setPlayInterval(setInterval(() => {
             setcurrentTimeState(formatTime.format(videoComponent.current?.currentTime));
           }, 1000));
+
+          setProgressInterval(setInterval(() => {
+            setcurrentProgress(Math.round((videoComponent.current?.currentTime || 0) / (videoComponent.current?.duration || 100) * 100));
+            
+            const buffered = (videoComponent.current?.buffered.end(0) || 100) || (videoComponent.current?.buffered.start(0) || 0);
+            
+            setcurrentBuffer(Math.round((buffered) / (videoComponent.current?.duration || 100) * 100));
+          }, 100));
         }
 
         videoComponent.current.oncanplay = () => {
-          console.log('oncanplay ready');
           setDurationState(formatTime.format(videoComponent.current?.duration));
         }
       }
@@ -94,7 +108,7 @@ function FramedVideo(props: MyProps) {
           }
         }
       }
-    }, [formatTime, playInterval, isfullscreen, fullScreenDisplay])
+    }, [formatTime, playInterval, isfullscreen, fullScreenDisplay, progressInterval])
 
     const setFullScreen = () => {
       if (videoComponent.current?.requestFullscreen) {
@@ -126,10 +140,6 @@ function FramedVideo(props: MyProps) {
       videoComponent.current?.pause();
     }
 
-    const divStyle = {
-      width: '200px'
-    };
-  
     return (
         <>
         <div className={styles.wrapper} ref={container}>
@@ -166,6 +176,10 @@ function FramedVideo(props: MyProps) {
               <div>{currentTimeState} / {durationState}</div>
             </div>
 
+            <div className={styles.progressBar}>
+              <ProgressBar value={currentProgress} variant={Variants.buffer} valueBuffer={currentBuffer} />
+            </div>
+
             {!isfullscreen ?
             <div className={styles.button} onClick={() => setFullScreen()}>
                 <div className={styles.background}></div>
@@ -179,10 +193,6 @@ function FramedVideo(props: MyProps) {
                 <ExitFullScreenIcon />
             </div>
             : null }
-
-            <div style={divStyle}>
-              <LinearProgress />
-            </div>
             
           </div>
                       

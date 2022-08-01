@@ -26,6 +26,8 @@ $buttom-width: 37px;
         .time {
             display: flex;
             align-items: center;
+            margin-right: 0.5em;
+            margin-left: 0.5em;
 
             div {
                 position: relative;
@@ -88,6 +90,16 @@ $buttom-width: 37px;
             .backward {
                 
                 left: 1px;
+            }
+        }
+
+        .progressBar {
+            display: flex;
+            align-items: center;
+            flex: 1;
+
+            span {
+                width: 100%;
             }
         }
     }
