@@ -8,8 +8,9 @@ import BackwardIcon from './icons/BackwardIcon';
 import ForwardIcon from './icons/ForwardIcon';
 import FullScreenIcon from './icons/FullScreenIcon';
 import ExitFullScreenIcon from './icons/ExitfullScreenIcon';
-import ProgressBar from './components/ProgressBar';
+import ProgressBar from './components/ProgressBar/ProgressBar';
 import { Variants } from './enums/Variant';
+import Volume from './components/Volume/Volume';
 
 interface MyProps {
   src: string
@@ -174,6 +175,10 @@ function FramedVideo(props: MyProps) {
 
             <div className={styles.time}>
               <div>{currentTimeState} / {durationState}</div>
+            </div>
+
+            <div className={styles.volume}>
+              <Volume />
             </div>
 
             <div className={styles.progressBar}>

@@ -1,5 +1,5 @@
 import LinearProgress from '@mui/material/LinearProgress';
-import { Variants } from "../enums/Variant";
+import { Variants } from "../../enums/Variant";
 import './ProgressBar.scss';
 
 interface MyProps {
