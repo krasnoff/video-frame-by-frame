@@ -37,6 +37,12 @@ $buttom-width: 37px;
 
         .volume {
             width: 100px;
+            margin-right: 1.0rem;
+
+            & > div {
+                margin-bottom: 0 !important;
+                height: 100% !important;
+            }
         }
 
         .button {

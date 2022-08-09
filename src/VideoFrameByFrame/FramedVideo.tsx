@@ -141,6 +141,13 @@ function FramedVideo(props: MyProps) {
       videoComponent.current?.pause();
     }
 
+    const handleVolumeChange = (value: number | number[]) => {
+      const videoVolumeValue = typeof value === 'number' ? value / 100 : value[0] / 100;
+      if (videoComponent.current) {
+        videoComponent.current.volume = videoVolumeValue;
+      }
+    }
+
     return (
         <>
         <div className={styles.wrapper} ref={container}>
@@ -178,7 +185,7 @@ function FramedVideo(props: MyProps) {
             </div>
 
             <div className={styles.volume}>
-              <Volume />
+              <Volume onVolumeChange={(volume: number | number[]) => {handleVolumeChange(volume)}} />
             </div>
 
             <div className={styles.progressBar}>
