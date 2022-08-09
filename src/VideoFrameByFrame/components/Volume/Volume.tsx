@@ -30,7 +30,7 @@ function Volume(props: MyProps) {
                     if (value + 10 <= 100) {
                         setValue(value + 10); 
                     }
-                }
+                } 
             }
         }
     }, [sliderContainer, props, setValue, value]);
