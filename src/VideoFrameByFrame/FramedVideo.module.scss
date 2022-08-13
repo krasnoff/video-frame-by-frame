@@ -14,7 +14,7 @@ $buttom-width: 37px;
         padding: 10px 5px;
         background-color: rgba(34, 34, 30, 0.75);
         z-index: 2147483647;
-        opacity: 0;
+        opacity: 1; // TODO change to 0 before commit
 
         display: flex;
 

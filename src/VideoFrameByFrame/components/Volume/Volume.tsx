@@ -14,7 +14,6 @@ function Volume(props: MyProps) {
     const sliderContainer = useRef<any>(null);
     
     const handleChange = (event: Event, newValue: number | number[]) => {
-        props.onVolumeChange(newValue as number);
         setValue(newValue as number);
     }
 
