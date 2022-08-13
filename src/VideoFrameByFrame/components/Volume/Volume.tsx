@@ -10,6 +10,7 @@ interface MyProps {
 
 function Volume(props: MyProps) {
     const [value, setValue] = useState<number>(100);
+    const [originalvalue, setOriginalValue] = useState<number>(100);
     const sliderContainer = useRef<any>(null);
     
     const handleChange = (event: Event, newValue: number | number[]) => {
@@ -38,14 +39,23 @@ function Volume(props: MyProps) {
     useEffect(() => {
         props.onVolumeChange(value);
     }, [value, props]);
+
+    const handleVolumeMute = (mute: boolean) => {
+        if (mute) {
+            setOriginalValue(value);
+            setValue(0);
+        } else {
+            setValue(originalvalue);
+        }
+    }
     
     return (
         <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center" className="wrapper-volume">
             {value > 0 ?
-                <VolumeIcon />
+                <VolumeIcon onClick={(evt: boolean) => handleVolumeMute(evt)}/>
             : null }
             {value === 0 ?
-                <VolumeOffIcon />
+                <VolumeOffIcon className="volume-off-icon" onClick={(evt: boolean) => handleVolumeMute(evt)} />
             : null }
             <Slider aria-label="Small" size="small" onChange={handleChange} defaultValue={100} value={value} ref={sliderContainer}/>
         </Stack>

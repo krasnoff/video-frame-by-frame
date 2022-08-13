@@ -4,10 +4,15 @@
 
 .wrapper-volume {
     svg { 
-        width: 15px !important;
-        height: 15px !important;
+        height: 19px !important;
         opacity: 1;
         z-index: 2;
+        cursor: pointer;
+    }
+
+    .volume-off-icon {
+        position: relative;
+        left: 2px;
     }
 }
 
