@@ -51,13 +51,17 @@ function FramedVideo(props: MyProps) {
             //Don't go past the end, otherwise you may get an error
             videoComponent.current.currentTime = Math.min(videoComponent.current.duration, videoComponent.current.currentTime + frameTime);
         }
-        setcurrentTimeState(formatTime.format(videoComponent.current?.currentTime));
-        setcurrentProgress(Math.round(videoComponent.current?.currentTime || 0) / (videoComponent.current?.duration || 100) * 100);
-        if (container.current) {
-          container.current.dispatchEvent(new Event('mousemove'));
-        }
         
+        setTimeValues();
       }  
+    }
+
+    const setTimeValues = () => {
+      setcurrentTimeState(formatTime.format(videoComponent.current?.currentTime));
+      setcurrentProgress(Math.round(videoComponent.current?.currentTime || 0) / (videoComponent.current?.duration || 100) * 100);
+      if (container.current) {
+        container.current.dispatchEvent(new Event('mousemove'));
+      }
     }
 
     useLayoutEffect(() => {
@@ -148,6 +152,16 @@ function FramedVideo(props: MyProps) {
       }
     }
 
+    const progressChangeHandler = (evt: number) => {
+      if (videoComponent.current) {
+        videoComponent.current.currentTime = videoComponent.current?.duration * evt;
+        setTimeValues();
+      }
+      
+
+      
+    }
+
     return (
         <>
         <div className={styles.wrapper} ref={container}>
@@ -171,6 +185,8 @@ function FramedVideo(props: MyProps) {
             </div>
              : null }
             
+            {isPaused ?
+            <>
             <div className={styles.button} onClick={() => backward()}>
                 <div className={styles.background}></div>
                 <BackwardIcon />
@@ -179,6 +195,8 @@ function FramedVideo(props: MyProps) {
                 <div className={styles.background}></div>
                 <ForwardIcon />
             </div>
+            </>
+            : null }
 
             <div className={styles.time}>
               <div>{currentTimeState} / {durationState}</div>
@@ -189,7 +207,7 @@ function FramedVideo(props: MyProps) {
             </div>
 
             <div className={styles.progressBar}>
-              <ProgressBar value={currentProgress} variant={Variants.buffer} valueBuffer={currentBuffer} />
+              <ProgressBar value={currentProgress} variant={Variants.buffer} valueBuffer={currentBuffer} onProgressChange={(evt) => progressChangeHandler(evt)} />
             </div>
 
             {!isfullscreen ?
