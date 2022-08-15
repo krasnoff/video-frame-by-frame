@@ -24,6 +24,7 @@
   "homepage": "https://github.com/krasnoff/video-frame-by-frame#readme",
   "dependencies": {
     "node-sass": "^7.0.1",
-    "react": "^18.1.0"
+    "react": "^18.1.0",
+    "@mui/material": "^5.9.2"
   }
 }
