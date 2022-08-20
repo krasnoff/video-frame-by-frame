@@ -25,8 +25,12 @@ export default App;
 ```
 Here is a screenshot of the video controller:
 
-![Video screenshot](/screenshot.png "Video screenshot")
+![Video screenshot](/screenshot2.png "Video screenshot")
 
 As you can see the frame forward and the frame backward appears on the bottom center of the screen. They appear only when the video is paused.
+
+A working sample of this component can be seen [here](https://krasnoff.github.io/video-frame-by-frame/).
+
+The sample video has been produced by: (CC) Blender Foundation | [mango.blender.org](http://mango.blender.org)
 
 This component was made by Kobi Krasnoff
