@@ -1,12 +1,12 @@
 {
   "name": "videoframebyframe",
-  "version": "1.0.9",
+  "version": "2.0.2",
   "description": "this is a reactJs video component which enables to run a video movie frame by frame",
   "main": "FramedVideo.tsx",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf dist",
-    "build": "tsc && cp -r package.json README.md FramedVideo.module.scss icons ./dist"
+    "build": "tsc && cp -r package.json README.md FramedVideo.module.scss icons hooks enums components ./dist"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,8 @@
   "dependencies": {
     "node-sass": "^7.0.1",
     "react": "^18.1.0",
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
     "@mui/material": "^5.9.2"
   }
 }
